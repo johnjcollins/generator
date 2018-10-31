@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import MemeItem from './MemeItem';
 
 class App extends Component {
   state = {
@@ -13,9 +14,10 @@ class App extends Component {
       <div>
         <h2>Welcome to the Meme Generator!</h2>
         {memes.slice(0, memeLimit).map(meme => (
-          <h4 key={meme.id}>{meme.name}</h4>
+          <MemeItem key={meme.id} meme={meme} />
         ))}
-        <div className='meme-button'
+        <div
+          className="meme-button"
           onClick={() => {
             console.log('Click');
             this.setState({
