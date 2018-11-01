@@ -1,15 +1,49 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { newMeme } from '../actions';
 
 class MemeItem extends Component {
+  constructor() {
+    super();
+
+    this.state = {
+      hovered: false
+    };
+  }
+
+  postMeme = () => {
+    console.log(this.props);
+    const { topText, bottomText, meme, newMeme } = this.props;
+    const memeObj = {
+      template_id: meme.id,
+      topText,
+      bottomText
+    };
+    newMeme(memeObj);
+  };
+
   render() {
-    const { meme } = this.props;
     return (
-      <div className="meme-item">
-        <img src={meme.url} alt={meme.name} className="meme-img" />
-        <p className="meme-txt">{meme.name}</p>
+      <div
+        className="meme-item"
+        onMouseEnter={() => this.setState({ hovered: true })}
+        onMouseLeave={() => this.setState({ hovered: false })}
+        onClick={this.postMeme}
+      >
+        <img
+          src={this.props.meme.url}
+          alt={this.props.meme.name}
+          className={this.state.hovered ? 'meme-img darken-img' : 'meme-img'}
+        />
+        <p className={this.state.hovered ? 'meme-txt' : 'no-txt'}>
+          {this.props.meme.name}
+        </p>
       </div>
     );
   }
 }
 
-export default MemeItem;
+export default connect(
+  null,
+  { newMeme }
+)(MemeItem);
